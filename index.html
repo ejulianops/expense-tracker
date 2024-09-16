@@ -1,7 +1,3 @@
-<!-- next
-
--->
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -27,6 +23,28 @@
                 <label for="income-description">Description</label>
                 <input type="text" id="income-description" placeholder="e.g. Salary">
             </div>
+
+            <!-- Categories dropdown list -->
+            <div class="input-group">
+                <label for="income-category">Category</label>
+                <select id="income-category">
+                    <option value="Salary">Salary</option>
+                    <option value="Interest">Interest</option>
+                    <option value="Repayment">Reimbursement</option>
+                </select>
+            </div>
+
+            <!-- Account dropdown list -->
+            <div class="input-group">
+                <label for="income-account">Account</label>
+                <select id="income-account">
+                    <option value="Current">Current</option>
+                    <option value="Savings">Savings</option>
+                    <option value="Investment">Investment</option>
+                    <option value="Receivable">Receivable</option>
+                </select>
+            </div>
+
             <div class="input-group">
                 <label for="income-amount">Amount (£)</label>
                 <input type="number" id="income-amount" placeholder="e.g. 100000">
@@ -36,8 +54,6 @@
             <div class="button-group">
                 <button onclick="addIncome()">Add Income</button>
             </div>
-            
-
         </div>
         
         <!-- Section: Expenses -->
@@ -52,12 +68,27 @@
                 <label for="expense-category">Category</label>
                 <select id="expense-category">
                     <option value="Housing">Housing</option>
-                    <option value="Food">Food</option>
+                    <option value="Groceries">Groceries</option>
                     <option value="Transportation">Transportation</option>
+                    <option value="Education">Education</option>
+                    <option value="Restaurant">Restaurant</option>
+                    <option value="Subscription">Subscription</option>                    
                     <option value="Entertainment">Entertainment</option>
+                    <option value="Travel">Travel</option>
                     <option value="Others">Others</option>
                 </select>
             </div>
+
+            <!-- Account dropdown list -->
+            <div class="input-group">
+                <label for="expense-account">Account</label>
+                <select id="expense-account">
+                    <option value="Current">Current</option>
+                    <option value="Credit Card">Credit Card</option>
+                    <option value="Payable">Payable</option>
+                </select>
+            </div>
+
             <div class="input-group">
                 <label for="expense-amount">Amount (£)</label>
                 <input type="number" id="expense-amount" placeholder="e.g. 50000">
@@ -79,6 +110,7 @@
                         <th>Category</th>
                         <th>Amount (£)</th>
                         <th>Type</th>
+                        <th>Account</th> <!-- Added Account Column -->
                         <th>Action</th> <!-- Column for delete button -->
                     </tr>
                 </thead>
@@ -106,3 +138,4 @@
 
 </body>
 </html>
+

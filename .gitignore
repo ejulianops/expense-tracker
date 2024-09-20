@@ -1,0 +1,23 @@
+# Python cache files
+__pycache__/
+*.py[cod]
+
+# Virtual environment
+venv/
+.env
+
+# Flask instance folder (if you use it)
+instance/
+
+# Database files (if you have a SQLite database)
+*.sqlite3
+
+# IDE files (if you use specific editors)
+.idea/         # For JetBrains IDEs like PyCharm
+.vscode/       # For Visual Studio Code
+*.swp         # Swap files from Vim
+*.swo         # Swap files from Vim
+
+# OS-specific files
+.DS_Store      # macOS Finder files
+Thumbs.db      # Windows thumbnail cache

@@ -1,8 +1,11 @@
+import hmac
 from decimal import Decimal
 
 import streamlit as st
 
 import db
+
+st.set_page_config(page_title="Expenses", layout="centered")
 
 
 @st.cache_resource(validate=lambda conn: not conn.closed)
@@ -10,11 +13,28 @@ def get_conn():
     return db.connect(st.secrets["db"]["url"])
 
 
+def check_password():
+    if st.session_state.get("authed"):
+        return True
+    with st.form("login"):
+        password = st.text_input("Password", type="password")
+        submitted = st.form_submit_button("Log in")
+    if submitted:
+        expected = st.secrets["app_password"].encode()
+        if hmac.compare_digest(password.encode(), expected):
+            st.session_state["authed"] = True
+            st.rerun()
+        else:
+            st.error("Wrong password.")
+    return False
+
+
+if not check_password():
+    st.stop()
+
 conn = get_conn()
 
-st.set_page_config(page_title="Expenses", layout="centered")
 st.title("Expense tracker")
-
 accounts = db.get_accounts(conn)
 
 with st.form("add_expense", clear_on_submit=True):

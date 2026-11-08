@@ -1,5 +1,9 @@
 import streamlit as st
 
+import db
+
 st.set_page_config(page_title="Expenses", layout="centered")
 st.title("Expense tracker")
-st.write("Hello, it's alive.")
+
+accounts = db.get_accounts(st.secrets["db"]["url"])
+st.write(accounts)

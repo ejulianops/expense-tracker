@@ -4,12 +4,18 @@ import streamlit as st
 
 import db
 
-DB_URL = st.secrets["db"]["url"]
+
+@st.cache_resource(validate=lambda conn: not conn.closed)
+def get_conn():
+    return db.connect(st.secrets["db"]["url"])
+
+
+conn = get_conn()
 
 st.set_page_config(page_title="Expenses", layout="centered")
 st.title("Expense tracker")
 
-accounts = db.get_accounts(DB_URL)
+accounts = db.get_accounts(conn)
 
 with st.form("add_expense", clear_on_submit=True):
     date = st.date_input("Date", format="YYYY-MM-DD")
@@ -22,13 +28,12 @@ if submitted:
     if amount <= 0 or not expense.strip():
         st.error("Enter an amount above 0 and a description.")
     else:
-        db.add_expense(DB_URL, date, account[0], Decimal(str(amount)), expense.strip())
+        db.add_expense(conn, date, account[0], Decimal(str(amount)), expense.strip())
         st.success("Expense added.")
 
-# show the list in the app
 st.subheader("Recent expenses")
 
-rows = db.get_recent_expenses(DB_URL)
+rows = db.get_recent_expenses(conn)
 if rows:
     st.dataframe(
         [
@@ -40,7 +45,6 @@ if rows:
 else:
     st.info("No expenses yet.")
 
-# add the delete control to the app
 if rows:
     with st.expander("Delete an expense"):
         to_delete = st.selectbox(
@@ -49,5 +53,5 @@ if rows:
             format_func=lambda r: f"{r[1]} · {r[2]} · {r[3]} · {r[4]}",
         )
         if st.button("Delete"):
-            db.delete_expense(DB_URL, to_delete[0])
+            db.delete_expense(conn, to_delete[0])
             st.rerun()
